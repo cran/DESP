@@ -1,0 +1,29 @@
+This package contains code, help and examples for Estimation of Diagonal Elements of Sparse Precision-Matrices, as described in "On estimation of the diagonal elements of a sparse precision matrix" by Samuel Balmand and Arnak S. Dalalyan (posted as http://arxiv.org/abs/1504.04696).
+
+Contributors:
+
+Arnak Dalalyan <Arnak.Dalalyan@ensae.fr>
+Samuel Balmand <Samuel.Balmand@ensg.eu>
+
+---------------
+
+This package contains the following methods:
+
+   DESP_MST 		Estimation of DESP using minimum spanning trees
+   DESP_PML 		Estimation of DESP by penalized likelihood minimization
+   DESP_RML 		Estimation of DESP by likelihood maximization
+   DESP_RV 		Estimation of DESP by residual variance
+   DESP_SPT 		Estimation of DESP using shortest path trees
+   DESP_SRL_B 		Estimation of the coefficient matrix
+   sqR_Lasso		Solve the square-root LASSO
+   scsSOCP		Solve a second-order cone program using SCS
+
+---------------
+
+Requirements:
+
+The open source solver SCS is already available in this package (see https://github.com/cvxgrp/scs), but to use the convex optimization proprietary software MOSEK or GUROBI that have an R interface, one has to install them separately.
+
+For estimating the coefficient matrix with the square-root Lasso with the MOSEK solver, DESP needs a working version of the Rmosek package that requires MOSEK and a MOSEK license (see http://rmosek.r-forge.r-project.org/).
+
+For estimating the coefficient matrix with the square-root Lasso with the GUROBI solver, DESP needs a working version of the gurobi package that requires GUROBI and a GUROBI license (see http://www.gurobi.com/documentation/6.0/refman/r_api_overview.html).

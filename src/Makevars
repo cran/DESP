@@ -1,0 +1,55 @@
+
+PKG_CPPFLAGS = -Iscs/include -Iscs
+
+# set path to SCS shared library without forgetting its runtime location
+PKG_LIBS = -L. -lscsdir -Wl,-rpath="$(R_PACKAGE_DIR)"/libs
+
+
+# build SCS shared library
+ifeq ($(OS),Windows_NT)
+	SYS = $(shell gcc -dumpmachine)
+	ifneq (, $(findstring cygwin, $(SYS)))
+		ISWINDOWS := 1
+	else 
+		ifneq (, $(findstring mingw, $(SYS)))
+			ISWINDOWS := 1
+		else 
+			ifneq (, $(findstring msys, $(SYS)))
+				ISWINDOWS := 1
+			else
+				ISWINDOWS := 0
+			endif
+		endif
+	endif
+else
+	ISWINDOWS := 0
+	UNAME = $(shell uname -s)
+endif
+
+ifeq ($(ISWINDOWS), 1)
+	# we're on windows (cygwin or msys)
+	SHARED = dll
+else 
+	ifeq ($(UNAME), Darwin)
+		# we're on apple
+		SHARED = dylib
+	else
+		# we're on a linux system
+		SHARED = so
+	endif
+endif
+
+
+
+.PHONY: all scslibs
+
+
+all: $(SHLIB)
+	mv DESP.$(SHARED) scsSolveSOCP.$(SHARED)
+$(SHLIB): scslibs
+
+scslibs:
+	($(MAKE) lib/libscsdir.$(SHARED) -C scs)
+	mv scs/lib/libscsdir.$(SHARED) .
+
+

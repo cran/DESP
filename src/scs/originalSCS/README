@@ -1,0 +1,4 @@
+
+This repository contains the original version of the SCS convex optimization software, as it was on the 20th of may 2015.
+
+To install it separately, unzip the archive and type "make" at the command line. 
