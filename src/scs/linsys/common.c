@@ -7,13 +7,13 @@
 
 scs_int copyAMatrix(AMatrix ** dstp, const AMatrix * src) {
 	scs_int Anz = src->p[src->n];
-	AMatrix * A = scs_calloc(1, sizeof(AMatrix));
+	AMatrix * A = (AMatrix *) scs_calloc(1, sizeof(AMatrix));
 	if (!A) return 0;
 	A->n = src->n;
 	A->m = src->m;
-	A->x = scs_malloc(sizeof(scs_float) * Anz); /* A values, size: NNZ A */
-	A->i = scs_malloc(sizeof(scs_int) * Anz); /* A row index, size: NNZ A */
-	A->p = scs_malloc(sizeof(scs_int) * (src->n + 1)); /* A column pointer, size: n+1 */
+	A->x = (scs_float *) scs_malloc(sizeof(scs_float) * Anz); /* A values, size: NNZ A */
+	A->i = (scs_int *) scs_malloc(sizeof(scs_int) * Anz); /* A row index, size: NNZ A */
+	A->p = (scs_int *) scs_malloc(sizeof(scs_int) * (src->n + 1)); /* A column pointer, size: n+1 */
 	if (!A->x || !A->i || !A->p) return 0;
 	memcpy(A->x, src->x, sizeof(scs_float) * Anz);
 	memcpy(A->i, src->i, sizeof(scs_int) * Anz);
@@ -81,11 +81,11 @@ void printAMatrix(const AMatrix * A) {
 }
 
 void normalizeA(AMatrix * A, const Settings * stgs, const Cone * k, Scaling * scal) {
-	scs_float * D = scs_malloc(A->m * sizeof(scs_float));
-	scs_float * E = scs_malloc(A->n * sizeof(scs_float));
-	scs_float * Dt = scs_malloc(A->m * sizeof(scs_float));
-	scs_float * Et = scs_malloc(A->n * sizeof(scs_float));
-	scs_float * nms = scs_calloc(A->m, sizeof(scs_float));
+	scs_float * D = (scs_float *) scs_malloc(A->m * sizeof(scs_float));
+	scs_float * E = (scs_float *) scs_malloc(A->n * sizeof(scs_float));
+	scs_float * Dt = (scs_float *) scs_malloc(A->m * sizeof(scs_float));
+	scs_float * Et = (scs_float *) scs_malloc(A->n * sizeof(scs_float));
+	scs_float * nms = (scs_float *) scs_calloc(A->m, sizeof(scs_float));
 	scs_float minRowScale = MIN_SCALE * SQRTF((scs_float) A->n), maxRowScale = MAX_SCALE * SQRTF((scs_float) A->n);
 	scs_float minColScale = MIN_SCALE * SQRTF((scs_float) A->m), maxColScale = MAX_SCALE * SQRTF((scs_float) A->m);
 	scs_int i, j, l, count, delta, *boundaries, c1, c2;

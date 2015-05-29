@@ -50,11 +50,11 @@ $(LIB)/libscsindir.a: $(OBJECTS_SCS) $(INDIRSRC)/private.o $(LINSYS)/common.o
 
 $(LIB)/libscsdir.$(SHARED): $(OBJECTS_SCS) $(DIRSRC)/private.o $(DIRECT_OBJECTS_SCS) $(LINSYS)/common.o
 	mkdir -p $(LIB)
-	$(CC) -shared -o $@ $^ $(LDFLAGS)
+	$(CC) $(SHLIB_COMPILER_OPTION) -o $@ $^ $(LDFLAGS)
 
 $(LIB)/libscsindir.$(SHARED): $(OBJECTS_SCS) $(INDIRSRC)/private.o $(LINSYS)/common.o
 	mkdir -p $(LIB)
-	$(CC) -shared -o $@ $^ $(LDFLAGS)
+	$(CC) $(SHLIB_COMPILER_OPTION) -o $@ $^ $(LDFLAGS)
 
 $(OUT)/demo_direct: examples/c/demo.c $(LIB)/libscsdir.a
 	mkdir -p $(LIB)

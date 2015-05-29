@@ -41,18 +41,18 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	double *xx;
 	int * stat;
 
-	k = scs_calloc(1, sizeof(Cone));
-	d = scs_calloc(1, sizeof(Data));
-	d->stgs = scs_calloc(1, sizeof(Settings));
-	A = scs_malloc(sizeof(AMatrix));
-	sol = scs_calloc(1, sizeof(Sol));
+	k = (Cone *) scs_calloc(1, sizeof(Cone));
+	d = (Data *) scs_calloc(1, sizeof(Data));
+	d->stgs = (Settings *) scs_calloc(1, sizeof(Settings));
+	A = (AMatrix *) scs_malloc(sizeof(AMatrix));
+	sol = (Sol *) scs_calloc(1, sizeof(Sol));
 
   	/* set up SCS structures */
 	d->m = (scs_int) *(INTEGER(Am)); /* A has m rows */
 	d->n = (scs_int) *(INTEGER(An)); /* A has n cols */
-	d->b = scs_malloc(d->m * sizeof(scs_float));
+	d->b = (scs_float *) scs_malloc(d->m * sizeof(scs_float));
 	d->b = (scs_float *) REAL(b);
-	d->c = scs_malloc(d->n * sizeof(scs_float));
+	d->c = (scs_float *) scs_malloc(d->n * sizeof(scs_float));
 	d->c = (scs_float *) REAL(c);
 
 	A->n = d->n;
@@ -65,7 +65,7 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	k->f = (scs_int) *(INTEGER(Kf));
 	k->l = (scs_int) *(INTEGER(Kl));
 	k->qsize = (scs_int) *(INTEGER(Kqsize));
-	k->q = scs_malloc(k->qsize * sizeof(scs_int));
+	k->q = (scs_int *) scs_malloc(k->qsize * sizeof(scs_int));
 	k->q = (scs_int *) INTEGER(Kq);
 
 	/* settings */

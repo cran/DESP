@@ -30,11 +30,11 @@ Arnak Dalalyan and Samuel Balmand
 Maintainer: Samuel Balmand <Samuel.Balmand@ensg.eu>
 }
 \references{
-  Samuel Balmand and Arnak S. Dalalyan : On estimation of the diagonal elements of a sparse precision matrix, 2015. Posted as http://arxiv.org/abs/1504.04696.
+  Balmand, S. and Dalalyan, A. S. (2015): On estimation of the diagonal elements of a sparse precision matrix, Posted as http://arxiv.org/abs/1504.04696.
 }
 
 \keyword{ package }
 \seealso{
-\code{\link[Rmosek]{mosek}},\code{\link[gurobi]{gurobi}},\code{\link{scsSOCP}}, \code{\link[graph]{connComp}}, \code{\link[RBGL]{mstree.kruskal}}, \code{\link[RBGL]{dijkstra.sp}} 
+\code{\link[Rmosek]{mosek}},\pkg{gurobi},\code{\link{scsSOCP}}, \code{\link[graph]{connComp}}, \code{\link[RBGL]{mstree.kruskal}}, \code{\link[RBGL]{dijkstra.sp}} 
 }
 

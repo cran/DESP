@@ -111,15 +111,15 @@ static void populateOnFailure(scs_int m, scs_int n, Sol * sol, Info * info, scs_
 	if (sol) {
 		if (n > 0) {
 			if (!sol->x)
-				sol->x = scs_malloc(sizeof(scs_float) * n);
+				sol->x = (scs_float *) scs_malloc(sizeof(scs_float) * n);
 			scaleArray(sol->x, NAN, n);
 		}
 		if (m > 0) {
 			if (!sol->y)
-				sol->y = scs_malloc(sizeof(scs_float) * m);
+				sol->y = (scs_float *) scs_malloc(sizeof(scs_float) * m);
 			scaleArray(sol->y, NAN, m);
 			if (!sol->s)
-				sol->s = scs_malloc(sizeof(scs_float) * m);
+				sol->s = (scs_float *) scs_malloc(sizeof(scs_float) * m);
 			scaleArray(sol->s, NAN, m);
 		}
 	}
@@ -335,19 +335,19 @@ static scs_int unbounded(Work * w, Sol * sol, Info * info, scs_float cTx) {
 
 static void sety(Work * w, Sol * sol) {
 	if (!sol->y)
-		sol->y = scs_malloc(sizeof(scs_float) * w->m);
+		sol->y = (scs_float *) scs_malloc(sizeof(scs_float) * w->m);
 	memcpy(sol->y, &(w->u[w->n]), w->m * sizeof(scs_float));
 }
 
 static void sets(Work * w, Sol * sol) {
 	if (!sol->s)
-		sol->s = scs_malloc(sizeof(scs_float) * w->m);
+		sol->s = (scs_float *) scs_malloc(sizeof(scs_float) * w->m);
 	memcpy(sol->s, &(w->v[w->n]), w->m * sizeof(scs_float));
 }
 
 static void setx(Work * w, Sol * sol) {
 	if (!sol->x)
-		sol->x = scs_malloc(sizeof(scs_float) * w->n);
+		sol->x = (scs_float *) scs_malloc(sizeof(scs_float) * w->n);
 	memcpy(sol->x, w->u, w->n * sizeof(scs_float));
 }
 
@@ -470,7 +470,7 @@ static void printHeader(Work * w, const Cone * k) {
 
 scs_float getDualConeDist(const scs_float * y, const Cone * k, scs_int m) {
     scs_float dist;
-    scs_float * t = scs_malloc(sizeof(scs_float) * m);
+    scs_float * t = (scs_float *) scs_malloc(sizeof(scs_float) * m);
     memcpy(t, y, m * sizeof(scs_float));
     projDualCone(t, k, NULL, -1);
     dist = calcNormInfDiff(t, y, m);
@@ -481,7 +481,7 @@ scs_float getDualConeDist(const scs_float * y, const Cone * k, scs_int m) {
 /* via moreau */
 scs_float getPriConeDist(const scs_float * s, const Cone * k, scs_int m) {
     scs_float dist;
-    scs_float * t = scs_malloc(sizeof(scs_float) * m);
+    scs_float * t = (scs_float *) scs_malloc(sizeof(scs_float) * m);
     memcpy(t, s, m * sizeof(scs_float));
     scaleArray(t, -1.0, m);
     projDualCone(t, k, NULL, -1);
@@ -605,7 +605,7 @@ static scs_int validate(const Data * d, const Cone * k) {
 }
 
 static Work * initWork(const Data *d, const Cone * k) {
-	Work * w = scs_calloc(1, sizeof(Work));
+	Work * w = (Work *) scs_calloc(1, sizeof(Work));
 	scs_int l = d->n + d->m + 1;
 	if (d->stgs->verbose) {
 		printInitHeader(d, k);
@@ -619,16 +619,16 @@ static Work * initWork(const Data *d, const Cone * k) {
 	w->m = d->m;
 	w->n = d->n;
 	/* allocate workspace: */
-	w->u = scs_malloc(l * sizeof(scs_float));
-	w->v = scs_malloc(l * sizeof(scs_float));
-	w->u_t = scs_malloc(l * sizeof(scs_float));
-	w->u_prev = scs_malloc(l * sizeof(scs_float));
-	w->h = scs_malloc((l - 1) * sizeof(scs_float));
-	w->g = scs_malloc((l - 1) * sizeof(scs_float));
-	w->pr = scs_malloc(d->m * sizeof(scs_float));
-	w->dr = scs_malloc(d->n * sizeof(scs_float));
-	w->b = scs_malloc(d->m * sizeof(scs_float));
-	w->c = scs_malloc(d->n * sizeof(scs_float));
+	w->u = (scs_float *) scs_malloc(l * sizeof(scs_float));
+	w->v = (scs_float *) scs_malloc(l * sizeof(scs_float));
+	w->u_t = (scs_float *) scs_malloc(l * sizeof(scs_float));
+	w->u_prev = (scs_float *) scs_malloc(l * sizeof(scs_float));
+	w->h = (scs_float *) scs_malloc((l - 1) * sizeof(scs_float));
+	w->g = (scs_float *) scs_malloc((l - 1) * sizeof(scs_float));
+	w->pr = (scs_float *) scs_malloc(d->m * sizeof(scs_float));
+	w->dr = (scs_float *) scs_malloc(d->n * sizeof(scs_float));
+	w->b = (scs_float *) scs_malloc(d->m * sizeof(scs_float));
+	w->c = (scs_float *) scs_malloc(d->n * sizeof(scs_float));
 	if (!w->u || !w->v || !w->u_t || !w->u_prev || !w->h || !w->g || !w->pr || !w->dr || !w->b || !w->c) {
 		scs_printf("ERROR: work memory allocation failure\n");
 		return NULL;
@@ -641,7 +641,7 @@ static Work * initWork(const Data *d, const Cone * k) {
 			return NULL;
 		}
 #endif
-		w->scal = scs_malloc(sizeof(Scaling));
+		w->scal = (Scaling *) scs_malloc(sizeof(Scaling));
 		normalizeA(w->A, w->stgs, k, w->scal);
 #ifdef EXTRAVERBOSE
 		printArray(w->scal->D, d->m, "D");

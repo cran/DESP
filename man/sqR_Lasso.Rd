@@ -25,15 +25,15 @@ computation of beta that minimize |Y-X*beta|_2 + lambda |beta|_1 (square-root La
 %\references{}
 \author{Arnak Dalalyan and Samuel Balmand.}
 
-\seealso{\code{\link[Rmosek]{mosek}},\code{\link[gurobi]{gurobi}},\code{\link{scsSOCP}}}
+\seealso{\code{\link[Rmosek]{mosek}},\pkg{gurobi},\code{\link{scsSOCP}}}
 
 \examples{
 ## set the design matrix
-X = matrix(c(1,0,2,2,1,0,-1,1,1,2,0,1),4,3,byrow=TRUE)
+X <- matrix(c(1,0,2,2,1,0,-1,1,1,2,0,1),4,3,byrow=TRUE)
 ## set the vector of observations
-Y = c(1,0,2,1)
+Y <- c(1,0,2,1)
 ## set the penalty level
-lambda = 1
+lambda <- 1
 ## compute the Lasso estimate using SCS
 sqR_Lasso(X, Y, lambda, solver="SCS")
 }

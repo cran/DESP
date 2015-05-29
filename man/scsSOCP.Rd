@@ -60,7 +60,7 @@ solve a second-order cone program using SCS
 }
 
 \references{
-  O'Donoghue B. and Chu E. and Parikh N. and Boyd S. : Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding, may 2015
+  O'Donoghue, B. and Chu, E. and Parikh, N. and Boyd, S. (2015): Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding.
 }
 
 \author{Arnak Dalalyan and Samuel Balmand.}

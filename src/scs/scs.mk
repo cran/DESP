@@ -18,6 +18,7 @@ ifeq ($(OS),Windows_NT)
 			endif
 		endif
 	endif
+	UNAME = $(OS)
 else
 	ISWINDOWS := 0
 	UNAME = $(shell uname -s)
@@ -33,18 +34,34 @@ else
 		LDFLAGS += -lm
 		SHARED = dylib
 	else
-		# we're on a linux system, use accurate timer provided by clock_gettime()
+		# we're on a linux (or solaris) system, use accurate timer provided by clock_gettime()
 		LDFLAGS += -lm -lrt
 		SHARED = so
 	endif
 endif
 
+# gcc and clang shared libraries compiler option
+SHLIB_COMPILER_OPTION = -shared
 
 # Add on default CFLAGS
-CFLAGS += -g -DCTRLC=1 -Wall -pedantic -O3 -funroll-loops -Wstrict-prototypes -I. -Iinclude
+ADDITIONAL_CFLAGS = -g -DCTRLC=1 $(CC_WARN) -pedantic -O3 -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
-	CFLAGS += -fPIC
+	ADDITIONAL_CFLAGS += -fPIC
 endif
+
+# Add on default CFLAGS for Oracle Solaris Studio and modify shared libraries compiler option
+ifeq ($(UNAME), Solaris)
+	ifeq (, $(findstring gcc, $(CC))) 
+		ifeq (, $(findstring clang, $(CC))) 
+			# we're on solaris (with Oracle Solaris Studio)
+			ADDITIONAL_CFLAGS = -g -DCTRLC=1 -I. -Iinclude
+			SHLIB_COMPILER_OPTION = -G
+		endif
+	endif
+endif
+
+CFLAGS += $(ADDITIONAL_CFLAGS)
+
 
 LINSYS = linsys
 DIRSRC = $(LINSYS)/direct

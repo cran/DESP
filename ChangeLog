@@ -3,3 +3,13 @@
 
 	* Version: 0.1
 	* Release: first public release
+
+2015-05-29  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.1-1
+	* Release: fix cross-platform compilation problems (OS X and Solaris)
+
+2015-06-12  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.1-2
+	* Release: minor formatting corrections in documentation

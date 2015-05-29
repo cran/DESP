@@ -19,7 +19,7 @@
 }
 
 \references{
-  Kruskal Joseph B., Jr. : On the shortest spanning subtree of a graph and the traveling salesman problem, Proc. Amer. Math. Soc., 7, 48-50, 1956.
+  Kruskal, J. B. Jr. (1956): On the shortest spanning subtree of a graph and the traveling salesman problem, \emph{Proc. Amer. Math. Soc.}, \bold{7}, 48--50.
 }
 
 \author{Arnak Dalalyan and Samuel Balmand.}

@@ -18,7 +18,7 @@
   \item{cc}{The list of the connected components of the given graph.}
 }
 \references{
-  Dijkstra E. W. : A note on two problems in connexion with graphs, Numer. Math., 1, 269-271, 1959.
+  Dijkstra, E. W. (1959): A note on two problems in connexion with graphs, \emph{Numer. Math.}, \bold{1}, 269--271.
 }
 
 \author{Arnak Dalalyan and Samuel Balmand.}

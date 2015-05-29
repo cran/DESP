@@ -62,7 +62,7 @@ scs_int getSdConeSize(scs_int s) {
 scs_int getConeBoundaries(const Cone * k, scs_int ** boundaries) {
 	scs_int i, count = 0;
 	scs_int len = 1 + k->qsize + k->ssize + k->ed + k->ep + k->psize;
-	scs_int * b = scs_malloc(sizeof(scs_int) * len);
+	scs_int * b = (scs_int *) scs_malloc(sizeof(scs_int) * len);
 	b[count] = k->f + k->l;
 	count += 1;
 	if (k->qsize > 0) {
@@ -172,7 +172,7 @@ scs_int validateCones(const Data * d, const Cone * k) {
 }
 
 char * getConeSummary(const Info * info) {
-	char * str = scs_malloc(sizeof(char) * 64);
+	char * str = (char *) scs_malloc(sizeof(char) * 64);
 	sprintf(str, "\tCones: avg projection time: %1.2es\n", totalConeTime / (info->iter + 1) / 1e3);
 	totalConeTime = 0.0;
 	return str;
@@ -194,7 +194,7 @@ void finishCone() {
 }
 
 char * getConeHeader(const Cone * k) {
-	char * tmp = scs_malloc(sizeof(char) * 512);
+	char * tmp = (char *) scs_malloc(sizeof(char) * 512);
 	scs_int i, socVars, socBlks, sdVars, sdBlks;
 	sprintf(tmp, "Cones:");
 	if (k->f) {
@@ -298,7 +298,7 @@ static scs_int projExpCone(scs_float * v, scs_int iter) {
 	}
 
 	/* -v in Kexp^* */
-	if ((-r < 0 && r * exp(s / r) + exp(1) * t <= CONE_THRESH) || (-r == 0 && -s >= 0 && -t >= 0)) {
+	if ((-r < 0 && r * exp(s / r) + exp((double) 1) * t <= CONE_THRESH) || (-r == 0 && -s >= 0 && -t >= 0)) {
 		memset(v, 0, 3 * sizeof(scs_float));
 		return 0;
 	}

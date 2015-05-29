@@ -1,8 +1,11 @@
 
 PKG_CPPFLAGS = -Iscs/include -Iscs
 
-# set path to SCS shared library without forgetting its runtime location
-PKG_LIBS = -L. -lscsdir -Wl,-rpath="$(R_PACKAGE_DIR)"/libs
+# set path to SCS shared library
+PKG_LIBS = -L. -lscsdir 
+
+# set path to SCS shared library runtime location
+RT_PATH = -Wl,-rpath,"$(R_PACKAGE_DIR)"/libs
 
 
 # build SCS shared library
@@ -34,11 +37,15 @@ else
 		# we're on apple
 		SHARED = dylib
 	else
-		# we're on a linux system
+		# we're on a linux or solaris system
 		SHARED = so
+		ifeq ($(UNAME), Solaris)
+			RT_PATH = -Wl,-R"$(R_PACKAGE_DIR)"/libs
+		endif
 	endif
 endif
 
+PKG_LIBS += $(RT_PATH)
 
 
 .PHONY: all scslibs
