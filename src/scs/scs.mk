@@ -2,6 +2,7 @@ include $(R_HOME)/etc/$(R_ARCH)/Makeconf
 
 #CC = $(BINPREF)gcc $(M_ARCH)
 
+SHARED = $(SHLIB_EXT)
 
 ifeq ($(OS),Windows_NT)
 	SYS = $(shell gcc -dumpmachine)
@@ -27,17 +28,21 @@ endif
 ifeq ($(ISWINDOWS), 1)
 	# we're on windows (cygwin or msys)
 	LDFLAGS += -lm
-	SHARED = dll
 else 
 	ifeq ($(UNAME), Darwin)
 		# we're on apple
 		LDFLAGS += -lm
-		SHARED = dylib
 	else
 		# we're on a linux (or solaris) system, use accurate timer provided by clock_gettime()
 		LDFLAGS += -lm -lrt
-		SHARED = so
 	endif
+endif
+
+# shared library installation path (for OS X)
+IN_PATH =
+
+ifeq ($(UNAME), Darwin)
+	IN_PATH = -install_name @rpath/libscsdir$(SHARED)
 endif
 
 # gcc and clang shared libraries compiler option
@@ -50,7 +55,7 @@ ifneq ($(ISWINDOWS), 1)
 endif
 
 # Add on default CFLAGS for Oracle Solaris Studio and modify shared libraries compiler option
-ifeq ($(UNAME), Solaris)
+ifeq ($(UNAME), SunOS)
 	ifeq (, $(findstring gcc, $(CC))) 
 		ifeq (, $(findstring clang, $(CC))) 
 			# we're on solaris (with Oracle Solaris Studio)

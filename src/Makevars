@@ -8,41 +8,18 @@ PKG_LIBS = -L. -lscsdir
 RT_PATH = -Wl,-rpath,"$(R_PACKAGE_DIR)"/libs
 
 
-# build SCS shared library
+# identify OS
 ifeq ($(OS),Windows_NT)
-	SYS = $(shell gcc -dumpmachine)
-	ifneq (, $(findstring cygwin, $(SYS)))
-		ISWINDOWS := 1
-	else 
-		ifneq (, $(findstring mingw, $(SYS)))
-			ISWINDOWS := 1
-		else 
-			ifneq (, $(findstring msys, $(SYS)))
-				ISWINDOWS := 1
-			else
-				ISWINDOWS := 0
-			endif
-		endif
-	endif
+	UNAME = Windows
 else
-	ISWINDOWS := 0
 	UNAME = $(shell uname -s)
 endif
 
-ifeq ($(ISWINDOWS), 1)
-	# we're on windows (cygwin or msys)
-	SHARED = dll
-else 
-	ifeq ($(UNAME), Darwin)
-		# we're on apple
-		SHARED = dylib
-	else
-		# we're on a linux or solaris system
-		SHARED = so
-		ifeq ($(UNAME), Solaris)
-			RT_PATH = -Wl,-R"$(R_PACKAGE_DIR)"/libs
-		endif
-	endif
+# get shared library extension
+SHARED = $(SHLIB_EXT)
+
+ifeq ($(UNAME), SunOS)
+	RT_PATH = -Wl,-R"$(R_PACKAGE_DIR)"/libs
 endif
 
 PKG_LIBS += $(RT_PATH)
@@ -50,13 +27,18 @@ PKG_LIBS += $(RT_PATH)
 
 .PHONY: all scslibs
 
-
 all: $(SHLIB)
-	mv DESP.$(SHARED) scsSolveSOCP.$(SHARED)
+	@if test  "$(UNAME)" != "Darwin"; then \
+	  mv DESP$(SHARED) scsSolveSOCP$(SHARED) ; \
+	else \
+	  ln -s DESP$(SHARED) scsSolveSOCP$(SHARED) ; \
+	fi
+
 $(SHLIB): scslibs
 
 scslibs:
-	($(MAKE) lib/libscsdir.$(SHARED) -C scs)
-	mv scs/lib/libscsdir.$(SHARED) .
+	($(MAKE) lib/libscsdir$(SHARED) -C scs)
+	mv scs/lib/libscsdir$(SHARED) .
+
 
 

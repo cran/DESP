@@ -12,7 +12,7 @@ TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OU
 
 .PHONY: default 
 
-default: $(TARGETS) $(LIB)/libscsdir.a $(LIB)/libscsindir.a $(LIB)/libscsdir.$(SHARED) $(LIB)/libscsindir.$(SHARED)
+default: $(TARGETS) $(LIB)/libscsdir.a $(LIB)/libscsindir.a $(LIB)/libscsdir$(SHARED) $(LIB)/libscsindir$(SHARED)
 	@echo "**********************************************************************************"
 	@echo "Successfully compiled scs, copyright Brendan O'Donoghue 2012."
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect'."
@@ -48,11 +48,11 @@ $(LIB)/libscsindir.a: $(OBJECTS_SCS) $(INDIRSRC)/private.o $(LINSYS)/common.o
 	$(ARCHIVE) $(LIB)/libscsindir.a $^
 	- $(RANLIB) $(LIB)/libscsindir.a
 
-$(LIB)/libscsdir.$(SHARED): $(OBJECTS_SCS) $(DIRSRC)/private.o $(DIRECT_OBJECTS_SCS) $(LINSYS)/common.o
+$(LIB)/libscsdir$(SHARED): $(OBJECTS_SCS) $(DIRSRC)/private.o $(DIRECT_OBJECTS_SCS) $(LINSYS)/common.o
 	mkdir -p $(LIB)
-	$(CC) $(SHLIB_COMPILER_OPTION) -o $@ $^ $(LDFLAGS)
+	$(CC) $(SHLIB_COMPILER_OPTION) -o $@ $^ $(LDFLAGS) $(IN_PATH)
 
-$(LIB)/libscsindir.$(SHARED): $(OBJECTS_SCS) $(INDIRSRC)/private.o $(LINSYS)/common.o
+$(LIB)/libscsindir$(SHARED): $(OBJECTS_SCS) $(INDIRSRC)/private.o $(LINSYS)/common.o
 	mkdir -p $(LIB)
 	$(CC) $(SHLIB_COMPILER_OPTION) -o $@ $^ $(LDFLAGS)
 
@@ -66,12 +66,12 @@ $(OUT)/demo_indirect: examples/c/demo.c $(LIB)/libscsindir.a
 	mkdir -p $(OUT)
 	$(CC) $(CFLAGS) -DDEMO_PATH="\"$(CURDIR)/examples/raw/demo_data\"" $^  -o $@ $(LDFLAGS)
 
-$(OUT)/demo_SOCP_direct: examples/c/randomSOCPProb.c $(LIB)/libscsdir.$(SHARED)
+$(OUT)/demo_SOCP_direct: examples/c/randomSOCPProb.c $(LIB)/libscsdir$(SHARED)
 	mkdir -p $(LIB)
 	mkdir -p $(OUT)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(OUT)/demo_SOCP_indirect: examples/c/randomSOCPProb.c $(LIB)/libscsindir.$(SHARED)
+$(OUT)/demo_SOCP_indirect: examples/c/randomSOCPProb.c $(LIB)/libscsindir$(SHARED)
 	mkdir -p $(LIB)
 	mkdir -p $(OUT)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
