@@ -33,12 +33,14 @@ all: $(SHLIB)
 	else \
 	  ln -s DESP$(SHARED) scsSolveSOCP$(SHARED) ; \
 	fi
+	@rm -rf scsSolveSOCP.o
 
 $(SHLIB): scslibs
 
 scslibs:
 	($(MAKE) lib/libscsdir$(SHARED) -C scs)
 	mv scs/lib/libscsdir$(SHARED) .
+	($(MAKE) purge -C scs)
 
 
 

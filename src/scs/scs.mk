@@ -1,8 +1,14 @@
-include $(R_HOME)/etc/$(R_ARCH)/Makeconf
 
 #CC = $(BINPREF)gcc $(M_ARCH)
 
+
+CC = `${R_HOME}/bin/R CMD config CC`
+LDFLAGS = `${R_HOME}/bin/R CMD config LDFLAGS`
+CFLAGS = `${R_HOME}/bin/R CMD config CFLAGS`
+SHLIB_EXT = $(shell echo `${R_HOME}/bin/R CMD config SHLIB_EXT`)
+
 SHARED = $(SHLIB_EXT)
+
 
 ifeq ($(OS),Windows_NT)
 	SYS = $(shell gcc -dumpmachine)

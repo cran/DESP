@@ -54,7 +54,7 @@ SPC <- DESP_SqPartCorr(B,n)
 ## re-estimate the coefficient matrix by ordinary least squares
 B_OLS <- DESP_OLS_B(X,SPC)
 ## estimate the diagonal of the precision matrix and get its inverse
-hatPhiSPT <- 1/DESP_SPT(X,B,method=2.1)
+hatPhiSPT <- 1/DESP_SPT(X,B_OLS,method=2.1)
 ## measure the performance of the estimation using l2 vector norm
 sqrt(sum((Phi-hatPhiSPT)^2))
 }

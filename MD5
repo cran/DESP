@@ -1,5 +1,5 @@
-8007f65e0e716b02d1e3454bc5a75668 *ChangeLog
-005290004fe78a579b6de1f60c510ffc *DESCRIPTION
+c975f911bcc1fee4d4a4f31cce8b4ce5 *ChangeLog
+7d91eeacf0cde91755ebee39fa924b71 *DESCRIPTION
 fe29f58f3588b6b7c1f21df96a9fde61 *NAMESPACE
 ef76b9c82ac04afa9e76a1c24a9ab1ad *R/DESP_MST.R
 8ea5babb79891ee5cb7d7ef14323d7e6 *R/DESP_MST_MaxDegreeRoot.R
@@ -19,15 +19,15 @@ f34b50957579ddc11bf7c9462e5eb447 *R/scsSOCP.R
 60abf2bf80433dc8f32a24c1008da930 *R/sqR_Lasso.R
 4d8d59f299e898598227db8606753149 *README
 8486ef9d9f99b94b5a9398bc11653692 *man/DESP-internal.Rd
-4ed7cd748e1124ec506c7bfae47226ad *man/DESP-package.Rd
-26667cef28a52723285d1cc1be24c978 *man/DESP_MST.Rd
+ab02520edd9d941a83296b961af940bb *man/DESP-package.Rd
+476f03938547ba5edbf1edad225e4798 *man/DESP_MST.Rd
 f60e6733c372a8ae904fa680dfa8eeb6 *man/DESP_MST_MaxDegreeRoot.Rd
 e8001de2d3f0b1c872b4a50008c334e3 *man/DESP_OLS_B.Rd
 15e542e465854dd537cb61148a551983 *man/DESP_PEN_grad.Rd
-4b7896a5ca3b3407380f1caff005b98d *man/DESP_PML.Rd
-02a19a5ac35f9ab8e926a5f2d15f6603 *man/DESP_RML.Rd
-cf9fe9441634e987f81a2d9c0ba68534 *man/DESP_RV.Rd
-fc6a4b6b2718fd8c8d3563ae6a59171c *man/DESP_SPT.Rd
+bd17ce2d5c14878cadbccfa50345b3c8 *man/DESP_PML.Rd
+fda32eb71bffdc263c16c0337289f36e *man/DESP_RML.Rd
+383b09fe76ba9fd2bf9c893cd24facb6 *man/DESP_RV.Rd
+bcc3cd0c66da0636ed8805e05744dcff *man/DESP_SPT.Rd
 37b7a3c3a6f891993d7888695d00a3fe *man/DESP_SPT_MaxDegreeRoot.Rd
 e4005c201c59759dff434b9a9923ee1d *man/DESP_SPT_MaxDegreeRoot2.Rd
 d84888773bea2469d6f86d7c1b2cfdfe *man/DESP_SPT_MaxWeight.Rd
@@ -36,7 +36,7 @@ be0b955966eb58fabf01b85f3266f871 *man/DESP_SqPartCorr.Rd
 41fd5edf34cd5b4f8966c9f43c39d1eb *man/DESP_Weighted_Graph.Rd
 a97cb28fbbc781f5c9c666a890d7e42e *man/scsSOCP.Rd
 c7145ab2cb9e37b723d2becb0c343f93 *man/sqR_Lasso.Rd
-edd1baf7d10ce7c7a934451c1d532577 *src/Makevars
+98020378d47fde4d4e508b1a5525e7aa *src/Makevars
 835103ede56bb7f97c2b46299a883a8c *src/scs/LICENSE.txt
 78f3456ea8140e8f309d521c752eb878 *src/scs/Makefile
 fcc20842d39e8972adbbbf416fba93f6 *src/scs/README.md
@@ -85,7 +85,7 @@ f7ed70880f01df0a04423709323c8a53 *src/scs/linsys/direct/private.h
 9fc1b630a8ceddc998c63dbbd49e2cae *src/scs/linsys/indirect/private.h
 b224f9329c25f766d586ec9f9502e2d8 *src/scs/originalSCS/README
 272df02be04608b659af5481b7f70343 *src/scs/originalSCS/SCS_20052015.zip
-6a11cc13bab95c2570927317cd13b0f0 *src/scs/scs.mk
+f45cfc1927c8c1ce99b149a57a6cb44d *src/scs/scs.mk
 743b9be16d1b316f5238bee6f63506ba *src/scs/src/cones.c
 8e728794eabbe9ab7601a5660c3191a4 *src/scs/src/cs.c
 fcbcda6b7b2b44a6d8f80b75389f80e1 *src/scs/src/ctrlc.c

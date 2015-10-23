@@ -49,7 +49,7 @@ SPC <- DESP_SqPartCorr(B,n)
 ## re-estimate the coefficient matrix by ordinary least squares
 B_OLS <- DESP_OLS_B(X,SPC)
 ## estimate the diagonal of the precision matrix and get its inverse
-hatPhiPML <- 1/DESP_PML(X,B,thresh=0.05,kappa=0.1, tol=1e-5)
+hatPhiPML <- 1/DESP_PML(X,B_OLS,thresh=0.05,kappa=0.1, tol=1e-5)
 ## measure the performance of the estimation using l2 vector norm
 sqrt(sum((Phi-hatPhiPML)^2))
 }

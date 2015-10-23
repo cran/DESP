@@ -18,3 +18,8 @@
 
 	* Version: 0.1-3
 	* Release: fix cross-platform compilation problems (OS X and Solaris)
+
+2015-10-22  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.1-4
+	* Release: removal of the inclusion of etc/Makeconf for sub-makes, to consider the configuration settings of personnal and site Makevars files instead
