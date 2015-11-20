@@ -10,7 +10,14 @@
 \arguments{
   \item{X}{The design matrix.}
   \item{lambda}{The penalization parameter.}
-  \item{solver}{The solver, SCS by default.}
+  \item{solver}{The solver.
+    A string indicating the solver to use.
+    \describe{
+      \item{\code{"SCS"}}{specifies the free Splitting Conic Solver;}
+      \item{\code{"Gurobi"}}{specifies the commercial Gurobi solver;}
+      \item{\code{"Mosek"}}{specifies the commercial Mosek solver.}
+    }
+    The default is \code{"SCS"}.}
 }
 %\details{
 %}

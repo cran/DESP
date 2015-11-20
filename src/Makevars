@@ -2,7 +2,7 @@
 PKG_CPPFLAGS = -Iscs/include -Iscs
 
 # set path to SCS shared library
-PKG_LIBS = -L. -lscsdir 
+PKG_LIBS = $(BLAS_LIBS) $(FLIBS) -L. -lscsdir 
 
 # set path to SCS shared library runtime location
 RT_PATH = -Wl,-rpath,"$(R_PACKAGE_DIR)"/libs
@@ -33,7 +33,7 @@ all: $(SHLIB)
 	else \
 	  ln -s DESP$(SHARED) scsSolveSOCP$(SHARED) ; \
 	fi
-	@rm -rf scsSolveSOCP.o
+	@rm -rf scsSolveSOCP.o scsSqR_Lasso.o scsSqR_Lasso_solve.o scsSRL_B.o
 
 $(SHLIB): scslibs
 

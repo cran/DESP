@@ -23,3 +23,8 @@
 
 	* Version: 0.1-4
 	* Release: removal of the inclusion of etc/Makeconf for sub-makes, to consider the configuration settings of personnal and site Makevars files instead
+
+2015-11-18  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.1-5
+	* Release: rewriting in C of the functions related to the computation of the matrix of coefficients, memory usage enhancement

@@ -10,8 +10,8 @@
 \tabular{ll}{
 Package: \tab DESP\cr
 Type: \tab Package\cr
-Version: \tab 0.1-4\cr
-Date: \tab 2015-10-22\cr
+Version: \tab 0.1-5\cr
+Date: \tab 2015-11-18\cr
 License: \tab GPL-3\cr
 }
 \describe{

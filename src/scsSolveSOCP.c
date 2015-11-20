@@ -16,6 +16,7 @@
 
 #include <R.h>
 #include <Rinternals.h>
+#include "R_ext/BLAS.h"
 #include "scs.h"
 #include "linsys/amatrix.h"
 
@@ -41,6 +42,8 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	double *xx;
 	int * stat;
 
+	int one = 1;
+
 	k = (Cone *) scs_calloc(1, sizeof(Cone));
 	d = (Data *) scs_calloc(1, sizeof(Data));
 	d->stgs = (Settings *) scs_calloc(1, sizeof(Settings));
@@ -50,9 +53,7 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
   	/* set up SCS structures */
 	d->m = (scs_int) *(INTEGER(Am)); /* A has m rows */
 	d->n = (scs_int) *(INTEGER(An)); /* A has n cols */
-	d->b = (scs_float *) scs_malloc(d->m * sizeof(scs_float));
 	d->b = (scs_float *) REAL(b);
-	d->c = (scs_float *) scs_malloc(d->n * sizeof(scs_float));
 	d->c = (scs_float *) REAL(c);
 
 	A->n = d->n;
@@ -65,7 +66,6 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	k->f = (scs_int) *(INTEGER(Kf));
 	k->l = (scs_int) *(INTEGER(Kl));
 	k->qsize = (scs_int) *(INTEGER(Kqsize));
-	k->q = (scs_int *) scs_malloc(k->qsize * sizeof(scs_int));
 	k->q = (scs_int *) INTEGER(Kq);
 
 	/* settings */
@@ -107,9 +107,10 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	PROTECT(x = allocVector(REALSXP, d->n));
 	xx = REAL(x);
 
-	for (i = 0; i < A->n; i++){
+	/*for (i = 0; i < A->n; i++){
 		xx[i] = (sol->x)[i];
-	}
+	}*/
+	F77_NAME(dcopy)(&(A->n), sol->x, &one, xx, &one);
 	
 	SET_VECTOR_ELT(solution,0,x);
 	SET_VECTOR_ELT(solution,1,status);
@@ -118,10 +119,19 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	SET_STRING_ELT(solNames,0,mkChar("x"));
 	SET_STRING_ELT(solNames,1,mkChar("status"));
 	setAttrib(solution,R_NamesSymbol,solNames);
-
+	
+	/* free memory */
+	scs_free(k);
+	if (d->stgs) scs_free(d->stgs);
+	scs_free(d);
+	scs_free(A);
+	if (sol->s) scs_free(sol->s);
+	if (sol->y) scs_free(sol->y);
+	if (sol->x) scs_free(sol->x);
+	scs_free(sol);
 	UNPROTECT(4);
-	return solution;
 
+	return solution;
 }
 
 
