@@ -42,6 +42,7 @@ SEXP scs_SRL_B(SEXP X, SEXP lambda){
 
 	/* initialize the matrix B */
 	PROTECT(B = allocMatrix(REALSXP,p,p));
+	memset(REAL(B), 0, sizeof(double)*p*p);
 
 	X_j = (double *) Calloc((unsigned) n*(p-1), double);
 	xj = (double *) Calloc((unsigned) n, double);
@@ -66,8 +67,12 @@ SEXP scs_SRL_B(SEXP X, SEXP lambda){
 			nb = n*j;
 			F77_NAME(dcopy)(&nb, REAL(X), &one, X_j, &one);
 			nb = n*(p-j-1);
-			F77_NAME(dcopy)(&nb, REAL(X)+(n*(j+1)), &one, X_j+(n*j), &one);
-			F77_NAME(dcopy)(&n, REAL(X)+(n*j), &one, xj, &one);
+			//F77_NAME(dcopy)(&nb, ((double *) REAL(X)+(n*(j+1))), &one, X_j+(n*j), &one); //Invalid read of size 16 ... dcopy_k_SANDYBRIDGE (in /usr/lib/libopenblasp-r0.2.12.so)
+			memcpy(X_j+(n*j), REAL(X)+(n*(j+1)), nb*sizeof(double));
+			
+			//F77_NAME(dcopy)(&n, REAL(X)+(n*j), &one, xj, &one); //Invalid read of size 16 ... dcopy_k_SANDYBRIDGE (in /usr/lib/libopenblasp-r0.2.12.so)
+			memcpy(xj, REAL(X)+(n*j), n*sizeof(double));
+			
 
 			st = scs_sqR_Lasso_solve(X_j,xj,*(REAL(lambda)), n, p-1, beta);
 			if (st != SCS_SOLVED){
@@ -83,9 +88,9 @@ SEXP scs_SRL_B(SEXP X, SEXP lambda){
 				else REAL(B)[i+p*j] = 1;
 			}*/
 			F77_NAME(daxpy)(&j, &mone, beta, &one, REAL(B)+(p*j), &one);
-			REAL(B)[i+p*j] = 1;
+			REAL(B)[j+p*j] = 1;
 			nb = p-j-1;
-			F77_NAME(daxpy)(&nb, &mone, beta, &one, REAL(B)+(p*j + j+1), &one);
+			F77_NAME(daxpy)(&nb, &mone, beta+j, &one, REAL(B)+(p*j + j+1), &one);
 	}
 
 	SET_VECTOR_ELT(solution,0,B);

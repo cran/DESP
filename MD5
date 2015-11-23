@@ -1,5 +1,5 @@
-7fb84eb2636f626187c4e4d7e3c34a2e *ChangeLog
-b345b0c44e59881984fc6f8fd7e952b1 *DESCRIPTION
+b2085ef2298af4c925d5c4455ef3afc8 *ChangeLog
+9f9e14611f852712be6cb784dbbf7dc7 *DESCRIPTION
 3b5e677b1e4eb8db333cc4e425ddbb52 *NAMESPACE
 ef76b9c82ac04afa9e76a1c24a9ab1ad *R/DESP_MST.R
 8ea5babb79891ee5cb7d7ef14323d7e6 *R/DESP_MST_MaxDegreeRoot.R
@@ -19,7 +19,7 @@ f34b50957579ddc11bf7c9462e5eb447 *R/scsSOCP.R
 e600eed3107e92a76dc851962ee7bcd6 *R/sqR_Lasso.R
 4d8d59f299e898598227db8606753149 *README
 3c7ee26314152b3f8c444fb8629cff66 *man/DESP-internal.Rd
-686bab5045b046fcbe7b5ecc9337c153 *man/DESP-package.Rd
+866b47948207532bd735522620db5f6a *man/DESP-package.Rd
 476f03938547ba5edbf1edad225e4798 *man/DESP_MST.Rd
 f60e6733c372a8ae904fa680dfa8eeb6 *man/DESP_MST_MaxDegreeRoot.Rd
 e8001de2d3f0b1c872b4a50008c334e3 *man/DESP_OLS_B.Rd
@@ -93,8 +93,8 @@ fcbcda6b7b2b44a6d8f80b75389f80e1 *src/scs/src/ctrlc.c
 2aa30b9bd96510530e343168350c8e82 *src/scs/src/scs.c
 efd82f691962e785f68ed077d5e25a0a *src/scs/src/scs_version.c
 0d50dfe57753520325345e60458f81a6 *src/scs/src/util.c
-611c071fda2320bd655b3455deba3598 *src/scsSRL_B.c
-5a146c54cacf9cdccbead04d38c7a876 *src/scsSolveSOCP.c
+7c1244434102fbdf9151958529597dbd *src/scsSRL_B.c
+c02a67e72362753a6159647c075de492 *src/scsSolveSOCP.c
 c6c9e6b74211d74e78239d738db192c6 *src/scsSqR_Lasso.c
 21b1445dff9471a3c18eba1fff7b36db *src/scsSqR_Lasso_solve.c
 abf3786e00553effca1026f4bb79e176 *src/scsSqR_Lasso_solve.h

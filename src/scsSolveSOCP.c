@@ -110,7 +110,7 @@ SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c,
 	/*for (i = 0; i < A->n; i++){
 		xx[i] = (sol->x)[i];
 	}*/
-	F77_NAME(dcopy)(&(A->n), sol->x, &one, xx, &one);
+	F77_NAME(dcopy)(&(A->n), sol->x, &one, xx, &one); 
 	
 	SET_VECTOR_ELT(solution,0,x);
 	SET_VECTOR_ELT(solution,1,status);

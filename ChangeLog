@@ -28,3 +28,8 @@
 
 	* Version: 0.1-5
 	* Release: rewriting in C of the functions related to the computation of the matrix of coefficients, memory usage enhancement
+
+2015-11-23  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.1-6
+	* Release: replacing dcopy (BLAS) by memcpy where it produces an unexplained illegal read error when checking the use of memory
