@@ -11,7 +11,7 @@ SHARED = $(SHLIB_EXT)
 
 
 ifeq ($(OS),Windows_NT)
-	SYS = $(shell gcc -dumpmachine)
+	SYS = $(shell $(CC) -dumpmachine)
 	ifneq (, $(findstring cygwin, $(SYS)))
 		ISWINDOWS := 1
 	else 

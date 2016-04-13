@@ -1,5 +1,5 @@
 b2085ef2298af4c925d5c4455ef3afc8 *ChangeLog
-9f9e14611f852712be6cb784dbbf7dc7 *DESCRIPTION
+99dd6efbcb529797bc01fa6b3362165a *DESCRIPTION
 3b5e677b1e4eb8db333cc4e425ddbb52 *NAMESPACE
 ef76b9c82ac04afa9e76a1c24a9ab1ad *R/DESP_MST.R
 8ea5babb79891ee5cb7d7ef14323d7e6 *R/DESP_MST_MaxDegreeRoot.R
@@ -85,7 +85,7 @@ f7ed70880f01df0a04423709323c8a53 *src/scs/linsys/direct/private.h
 9fc1b630a8ceddc998c63dbbd49e2cae *src/scs/linsys/indirect/private.h
 b224f9329c25f766d586ec9f9502e2d8 *src/scs/originalSCS/README
 272df02be04608b659af5481b7f70343 *src/scs/originalSCS/SCS_20052015.zip
-f45cfc1927c8c1ce99b149a57a6cb44d *src/scs/scs.mk
+846b6a4050a437c89fd936b85e6f9ebf *src/scs/scs.mk
 743b9be16d1b316f5238bee6f63506ba *src/scs/src/cones.c
 8e728794eabbe9ab7601a5660c3191a4 *src/scs/src/cs.c
 fcbcda6b7b2b44a6d8f80b75389f80e1 *src/scs/src/ctrlc.c
