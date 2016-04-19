@@ -33,3 +33,8 @@
 
 	* Version: 0.1-6
 	* Release: replacing dcopy (BLAS) by memcpy where it produces an unexplained illegal read error when checking the use of memory
+
+2016-04-12  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.2
+	* Release: addition of an implementation of a robust estimator of the precision matrix, addition of a package vignette, modification of the default choice to solve the square-root Lasso problem (set to coordinate descent), functionalities that depend on Mosek or Gurobi tagged as deprecated, modification of the signature of some functions (for instance, two optional parameters were added to DESP_SRL_B() for multithreading and to use shuffled/stochastic coordinate descent, rewriting in C of the function DESP_OLS_B(), other slight improvements

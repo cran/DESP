@@ -19,7 +19,10 @@
 
 #include "scs.h"
 #include "linsys/amatrix.h"
+#include <math.h>
 
 int scs_sqR_Lasso_solve(double * X, double * Y, double lambda, int n, int p, double * beta);
+
+int scs_sqR_Lasso_solve_loop(double * X, double * theta, double lambda, int n, int p, double * beta, int col);
 
 #endif

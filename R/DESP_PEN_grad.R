@@ -54,7 +54,5 @@ function(S,B,init,kappa,thresh,stepsize,tol){
     if (is.na(crossprod(grad))) stop("NA error in DESP_PEN_grad (gradient possibly too large).")
   }
 
-  Phi = 1/x
-
-  return(Phi)
+  return(x)
 }

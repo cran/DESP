@@ -14,8 +14,9 @@
 #
 
 DESP_RML <-
-function(X,B) {
+function(X,B,Theta=NULL) {
   # estimation of the diagonal of the precision matrix by likelihood maximization, when the true value of B is known or has already been estimated
+  # the observations of the data matrix X are assumed to have zero mean
   
   # read the sample size and the number of variables
   D = dim(X);
@@ -23,12 +24,17 @@ function(X,B) {
   p = D[2];               # p is the dimension
 
   # compute the sample cov matrix
-  S = crossprod(X)/n;
+  if(is.null(Theta))
+    {
+    S = crossprod(X)/n;
+    }
+  else
+    {
+    S = crossprod(X - Theta %*% MASS::ginv(B))/n;
+    }
 
   Phi = diag(crossprod(S,B));
   Phi = Phi*(Phi>0);
-
-  Phi = ifelse(Phi<1,Phi,1);
 
   return(1/Phi)
 }

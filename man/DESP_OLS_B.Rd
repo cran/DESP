@@ -2,7 +2,7 @@
 \alias{DESP_OLS_B}
 \title{Estimation of B by ordinary least squares}
 \description{
-  This function estimates the coefficient matrix B column-by-column. Only nonzero coefficients are estimated, using the sparsity pattern provided by the squared partial correlations matrix. gives 
+  This function estimates the coefficient matrix \code{B} column-by-column. Only nonzero coefficients are estimated, using the sparsity pattern provided by the squared partial correlations matrix.  
 }
 \usage{
   DESP_OLS_B(X, SPC)

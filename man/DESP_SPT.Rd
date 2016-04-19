@@ -2,23 +2,25 @@
 \alias{DESP_SPT}
 \title{Estimation of DESP using shortest path trees}
 \description{
-  This function estimates the diagonal of the precision matrix using shortest path trees, when the true value of the coefficient matrix B is known or has already been estimated.
+  This function estimates the diagonal of the precision matrix by symmetry-enforced likelihood minimization using shortest path trees, when the true value of the coefficient matrix \code{B} is known or has already been estimated. The observations of the data matrix \code{X} are assumed to have zero mean.
 }
 \usage{
-  DESP_SPT(X, B, method = 1)
+  DESP_SPT(X, B, method = '1', Theta = NULL)
 }
 \arguments{
-  \item{X}{The design matrix.}
+  \item{X}{The data matrix.}
   \item{B}{The coefficient matrix.}
   \item{method}{The method to select the shortest path trees to be considered.}
+  \item{Theta}{The matrix orresponding to outliers.}
 }
 \details{
   The shortest path trees for each connected component could be build under one of the following specifications :
 \describe{
-  \item{1}{only the presence or absence of edges is considered to build the shortest path trees,}
-  \item{2.1}{the root of each shortest path tree is chosen as the node of maximal degree among those in the connected component,}
-  \item{2.2}{the root of each shortest path tree - of maximum height equal to 1 - is chosen as the node of maximal degree,}
-  \item{3}{for each connected component, the selected shortest path tree is the maximum weighted tree among all shortest path trees.}
+  \item{\code{'1'}}{only the presence or absence of edges is considered to build the shortest path trees,}
+  \item{\code{'2.1'}}{the root of each shortest path tree is chosen as the node of maximal degree among those in the connected component,}
+  \item{\code{'2.2'}}{the root of each shortest path tree - of maximum height equal to 1 - is chosen as the node of maximal degree,}
+  \item{\code{'3'}}{for each connected component, the selected shortest path tree is the maximum weighted tree among all shortest path trees.}
+  When Theta is not NULL, we consider an additive contamination model. We assume that X = Y + E is observed, denoting the outlier-free data by Y and the matrix of errors by E. In this case, the matrix Theta should be equal to E * B.
 }
 }
 \value{

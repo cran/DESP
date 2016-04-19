@@ -14,8 +14,9 @@
 #
 
 DESP_SPT <-
-function(X,B,method=1) {
+function(X,B,method='1',Theta=NULL) {
   # estimation of the diagonal of the precision matrix using shortest path trees, when the true value of B is known or has already been estimated
+  # the observations of the data matrix X are assumed to have zero mean
   # main function
 
   # read the sample size and the number of variables
@@ -24,24 +25,31 @@ function(X,B,method=1) {
   p = D[2];               # p is the dimension
 
   # compute the sample cov matrix
-  S = crossprod(X)/n;
+  if(is.null(Theta))
+    {
+    S = crossprod(X)/n;
+    }
+  else
+    {
+    S = crossprod(X - Theta %*% MASS::ginv(B))/n;
+    }
   
-  if (method==1){ # considers only the presence or absence of edges to build the shortest path trees
+  if (method=='1'){ # considers only the presence or absence of edges to build the shortest path trees
     G = DESP_Weighted_Graph(matrix(1,p,p)*sign(B),n);
     trees = DESP_SPT_MaxDegreeRoot(G);
     Phi = DESP_SPT_Phi(S,B,trees);
   }
-  else if (method==2){ # chooses the root as the node of maximal degree 
+  else if (method=='2'){ # chooses the root as the node of maximal degree 
     G = DESP_Weighted_Graph(B,n);
     trees = DESP_SPT_MaxDegreeRoot(G);
     Phi = DESP_SPT_Phi(S,B,trees);
   }  
-  else if (method==2.1){ # chooses the root as the node of maximal degree and limits the height of shortest path trees to 1
+  else if (method=='2.1'){ # chooses the root as the node of maximal degree and limits the height of shortest path trees to 1
     G = DESP_Weighted_Graph(B,n);
     trees = DESP_SPT_MaxDegreeRoot2(G);
     Phi = DESP_SPT_Phi2(S,B,trees);
   }
-  else if (method==3){ # get the maximum weighted tree among all shortest path trees for each connected component
+  else if (method=='3'){ # get the maximum weighted tree among all shortest path trees for each connected component
     G = DESP_Weighted_Graph(B,n);
     trees = DESP_SPT_MaxWeight(G);
     Phi = DESP_SPT_Phi(S,B,trees);
@@ -84,8 +92,6 @@ function(S,B,trees) {
     Phi = Phi + dr * idc;
   }
 
-  Phi = ifelse(Phi>1,1,Phi);
-
   return(Phi);
 }
 
@@ -125,8 +131,6 @@ function(S,B,trees) {
     Phi = Phi + dr * idc;
 
   }
-
-  Phi = ifelse(Phi>1,1,Phi);
 
   return(Phi);
 }

@@ -14,34 +14,47 @@
 #
 
 DESP_SRL_B <-
-function(X,lambda,solver="SCS") {
-  # estimation of B
+function(X,lambda,solver="CD",sto=FALSE,nThreads=1) {
+  # estimation of B using the square-root Lasso
+  # the data matrix X is supposed to be centered
   
-  if (solver=="SCS"){
-    r <- try(.Call("scs_SRL_B",as.matrix(X),as.double(lambda)), silent = TRUE)
+  if (solver=="CD"){
+    r <- try(.Call("srL_B",as.matrix(X),NULL,as.double(lambda),as.integer(0),as.integer(sto),as.integer(nThreads)), silent = TRUE)
     if (r$status != 0) {
-      stop ("SCS square-root lasso ends up with a failure status")
+      stop ("CD square-root lasso ends up with a failure status")
     }
     if ( inherits (r , "try-error")) {
-      stop ("SCS failed somehow !")
+      stop ("CD failed somehow !")
     }
     B <- r$B
   }
   else{
-    # read the sample size and the number of variables
-    D <- dim(X);
-    n <- D[1];               # n is the sample size
-    p <- D[2];               # p is the dimension
-    
-    # initialize the matrix B
-    B <- matrix(,p,p);
-    
-    # we compute an estimator of each column by the square-root Lasso
-    for (j in 1:p)
-      {
-      beta  <- sqR_Lasso(X[,-j],X[,j],lambda,solver);
-      B[, j] <- append(-beta,1,after=j-1);
+    if (solver=="SCS"){
+      r <- try(.Call("srL_B",as.matrix(X),NULL,as.double(lambda),as.integer(1),NULL,as.integer(nThreads)), silent = TRUE)
+      if (r$status != 0) {
+        stop ("SCS square-root lasso ends up with a failure status")
       }
+      if ( inherits (r , "try-error")) {
+        stop ("SCS failed somehow !")
+      }
+      B <- r$B
+    }
+    else{
+      # read the sample size and the number of variables
+      D <- dim(X);
+      n <- D[1];               # n is the sample size
+      p <- D[2];               # p is the dimension
+      
+      # initialize the matrix B
+      B <- matrix(,p,p);
+      
+      # we compute an estimator of each column by the square-root Lasso
+      for (j in 1:p)
+        {
+        beta  <- sqR_Lasso(X[,-j],X[,j],lambda,solver);
+        B[, j] <- append(-beta,1,after=j-1);
+        }
+    }
   }
 
   return(B)

@@ -14,8 +14,9 @@
 #
 
 DESP_PML <-
-function(X,B,thresh,kappa,tol) {
+function(X,B,thresh,kappa,tol,Theta=NULL) {
   # estimation of the diagonal of the precision matrix by penalized likelihood minimization, when the true value of B is known or has already been estimated
+  # the observations of the data matrix X are assumed to have zero mean
   # main function
 
   # read the sample size and the number of variables
@@ -44,12 +45,19 @@ function(X,B,thresh,kappa,tol) {
   }
 
   # compute the sample cov matrix
-  S = crossprod(X)/n;
+  if(is.null(Theta))
+    {
+    S = crossprod(X)/n;
+    }
+  else
+    {
+    S = crossprod(X - Theta %*% MASS::ginv(B))/n;
+    }
   
   # stepsize computation
   maxSV = max(svd(hessian(rep(n^(1/2),p),B,thresh,kappa))$d)
   
-  Phi = DESP_PEN_grad(S,B,rep(1,p),kappa,thresh,1/maxSV,tol);
+  Phi_inv = DESP_PEN_grad(S,B,rep(1,p),kappa,thresh,1/maxSV,tol);
 
-  return(1/Phi);
+  return(Phi_inv);
 }

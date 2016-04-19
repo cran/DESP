@@ -7,10 +7,10 @@ solve a second-order cone program using SCS
   This function solves a second-order cone program using the C package SCS that solves convex cone problems via operator splitting. We use the direct method of the C package SCS that also proposes an indirect method.
   This method solves an optimization problem of the form :
     minimize
-          c^T x
+          \eqn{c^T x}{c^T x}
     subject to
-          b - A x  = s,
-          s in K,
+          \eqn{b - A x  = s}{b - A x  = s},
+          \eqn{s \in K}{s in K},
     where K is a product of zero, linear and second-order cones, containing the following informations (in this order) :
     f : number of linear equality constraints,
     l : length of LP cone,
@@ -23,28 +23,28 @@ solve a second-order cone program using SCS
 \arguments{
   \item{model}{The model representing the convex problem to solve is a list containing the components that follow. The sparse matrix A is stored using the compressed sparse column (CSC) format.
     \describe{
-    \item{Ax}{non-zero elements of the matrix A, size : nnz A}
-    \item{Ai}{row index of non-zero elements of the matrix A, size : nnz A}
-    \item{Ap}{column pointer for non-zero elements of the matrix A, size: An + 1}
-    \item{Am}{number of rows of the matrix A}
-    \item{An}{number of columns of the matrix A}
-    \item{b}{dense array for b (size Am)}
-    \item{c}{dense array for c (size An)}
-    \item{Kf}{number of linear equality constraints}
-    \item{Kl}{length of LP cone}
-    \item{Kq}{array of second-order cone constraints}
-    \item{Kqsize}{length of SOC array (number of second-order cones)}
-    \item{settings}{list of settings composed of :
+    \item{\code{Ax}}{non-zero elements of the matrix A, size : nnz A}
+    \item{\code{Ai}}{row index of non-zero elements of the matrix A, size : nnz A}
+    \item{\code{Ap}}{column pointer for non-zero elements of the matrix A, size: An + 1}
+    \item{\code{Am}}{number of rows of the matrix A}
+    \item{\code{An}}{number of columns of the matrix A}
+    \item{\code{b}}{dense array for b (size Am)}
+    \item{\code{c}}{dense array for c (size An)}
+    \item{\code{Kf}}{number of linear equality constraints}
+    \item{\code{Kl}}{length of LP cone}
+    \item{\code{Kq}}{array of second-order cone constraints}
+    \item{\code{Kqsize}}{length of SOC array (number of second-order cones)}
+    \item{\code{settings}}{list of settings composed of :
       \describe{
-      \item{alpha}{relaxation parameter, default 1.8}
-      \item{rho_x}{x equality constraint scaling, default 1e-3}
-      \item{max_iters}{maximum iterations to take, default 2500}
-      \item{eps}{convergence tolerance, default 1e-3}
-      \item{cg_rate}{for indirect, tolerance goes down like (1/iter)^cg_rate, default 2}
-      \item{verbose}{boolean, write out progress, default 1(true)}
-      \item{normalize}{boolean, heuristic data rescaling, default 1(true)}
-      \item{scale}{if normalized, rescales by this factor, default 5}
-      \item{warm_start}{boolean, warm start (put initial guess in Sol struct), default 0(false)}
+      \item{\code{alpha}}{relaxation parameter, default 1.8}
+      \item{\code{rho_x}}{x equality constraint scaling, default 1e-3}
+      \item{\code{max_iters}}{maximum iterations to take, default 2500}
+      \item{\code{eps}}{convergence tolerance, default 1e-3}
+      \item{\code{cg_rate}}{for indirect, tolerance goes down like (1/iter)^cg_rate, default 2}
+      \item{\code{verbose}}{boolean, write out progress, default 1(true)}
+      \item{\code{normalize}}{boolean, heuristic data rescaling, default 1(true)}
+      \item{\code{scale}}{if normalized, rescales by this factor, default 5}
+      \item{\code{warm_start}}{boolean, warm start (put initial guess in Sol struct), default 0(false)}
       }
     }
     }

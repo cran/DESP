@@ -16,30 +16,8 @@
 DESP_OLS_B <-
 function(X,SPC) {
   # estimation of B by ordinary least squares
-  
-  # read the sample size and the number of variables
-  D = dim(X);
-  n = D[1];           # n is the sample size
-  p = D[2];           # p is the dimension
-
-  # compute the sample covariance matrix
-  S = crossprod(X)/n;
-
-  # initialize the matrix B
-  B = matrix(,p,p);
-  
+  # the observations of the data matrix X are assumed to have zero mean
   # we compute an estimator of each line for every selected (non-zero) coefficient by OLS
-  for (j in 1:p)
-    {
-    SPCc  = as.matrix(SPC)[-j,j];
-    select = which(SPCc != 0);
-    beta = c(1:(p-1))*0;
-    if(length(select)!=0){
-      beta[select] = crossprod(ginv(crossprod((X[,-j])[,select])) , crossprod((X[,-j])[,select] , X[,j]));
-    }
 
-    B[, j] = append(-beta,1,after=j-1);
-    }
-
-  return(B)
+  .Call("selective_OLS_B", X, SPC)
 }

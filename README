@@ -1,4 +1,4 @@
-This package contains code, help and examples for Estimation of Diagonal Elements of Sparse Precision-Matrices, as described in "On estimation of the diagonal elements of a sparse precision matrix" by Samuel Balmand and Arnak S. Dalalyan (posted as http://arxiv.org/abs/1504.04696).
+This package contains code, help and examples for robust estimation of sparse precision-matrices, as described in "On estimation of the diagonal elements of a sparse precision matrix" by Samuel Balmand and Arnak S. Dalalyan (posted as http://arxiv.org/abs/1504.04696) and in "Convex programming approach to robust estimation of a multivariate Gaussian model" (posted as http://arxiv.org/abs/1512.04734).
 
 Contributors:
 
@@ -12,18 +12,24 @@ This package contains the following methods:
    DESP_MST 		Estimation of DESP using minimum spanning trees
    DESP_PML 		Estimation of DESP by penalized likelihood minimization
    DESP_RML 		Estimation of DESP by likelihood maximization
-   DESP_RV 		Estimation of DESP by residual variance
+   DESP_RV 		  Estimation of DESP by residual variance
    DESP_SPT 		Estimation of DESP using shortest path trees
-   DESP_SRL_B 		Estimation of the coefficient matrix
+   DESP_SRL_B 	Estimation of the coefficient matrix
    sqR_Lasso		Solve the square-root LASSO
-   scsSOCP		Solve a second-order cone program using SCS
+   scsSOCP		  Solve a second-order cone program using SCS
+   desp         Robust estimation of a sparse precision matrix
+   desp.cv      Selection of the tuning parameters of desp by v-fold cross-validation
+
+The functions not prefixed by "DESP_" would be most convenient for most of the uses. 
 
 ---------------
 
 Requirements:
 
-The open source solver SCS is already available in this package (see https://github.com/cvxgrp/scs), but to use the convex optimization proprietary software MOSEK or GUROBI that have an R interface, one has to install them separately.
+The open source solver SCS is already available in this package (see https://github.com/cvxgrp/scs), but to use the convex optimization proprietary software MOSEK or GUROBI that have an R interface, one has to install them separately. We highlight that the use of MOSEK and GUROBI solvers should be considered as deprecated. Their support will be removed in future versions of this package.
 
 For estimating the coefficient matrix with the square-root Lasso with the MOSEK solver, DESP needs a working version of the Rmosek package that requires MOSEK and a MOSEK license (see http://rmosek.r-forge.r-project.org/).
 
 For estimating the coefficient matrix with the square-root Lasso with the GUROBI solver, DESP needs a working version of the gurobi package that requires GUROBI and a GUROBI license (see http://www.gurobi.com/documentation/6.0/refman/r_api_overview.html).
+
+To make the best use of this package, we recommend to use a compiler that supports OpenMP (see http://openmp.org).

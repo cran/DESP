@@ -19,6 +19,12 @@
 #include "scsSqR_Lasso_solve.h"
 
 SEXP scs_sqR_Lasso(SEXP X, SEXP Y, SEXP lambda){
+	/* solves the square-root Lasso as an SOCP */
+	/* 
+	X : matrix of the explanatory variables
+	Y : vector corresponding to the response variable
+	lambda : tuning parameter that promotes sparsity
+	*/
 
 	double * bbeta;
 	int * stat;

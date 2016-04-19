@@ -1,0 +1,299 @@
+% \VignetteIndexEntry{Overview of the DESP package}
+% \VignetteDepends{DESP}
+% \VignetteKeywords{precision matrix}
+% \VignetteKeywords{sparse}
+% \VignetteKeywords{robust}
+% \VignetteKeywords{diagonal elements}
+% \VignettePackage{DESP}
+% \VignetteCompiler{knitr}
+% \VignetteEngine{knitr::knitr}
+
+\documentclass{article}
+
+\usepackage[margin=1in, a4paper]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+
+% inspired by JSS style files
+\let\proglang=\textsf
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+\newcommand*{\Rc}{\proglang{R}}
+
+\makeatletter
+\newcommand\code{\bgroup\@makeother\_\@makeother\~\@makeother\$\@codex}
+\def\@codex#1{{\normalfont\ttfamily\hyphenchar\font=-1 #1}\egroup}
+
+\newcommand{\Plaintitle}[1]{\def\@Plaintitle{#1}}
+\newcommand{\Shorttitle}[1]{\def\@Shorttitle{#1}}
+\newcommand{\Plainauthor}[1]{\def\@Plainauthor{#1}}
+\newcommand{\Abstract}[1]{\def\@Abstract{#1}}
+\newcommand{\Keywords}[1]{\def\@Keywords{#1}}
+\newcommand{\Plainkeywords}[1]{\def\@Plainkeywords{#1}}
+
+  \def\@maketitle{\vbox{\hsize\textwidth \linewidth\hsize
+   {\centering
+   {\LARGE\bf \@title\par}
+   \vskip 0.2in plus 1fil minus 0.1in
+   {
+       \def\And{\end{tabular}\hss \egroup \hskip 1in plus 2fil
+          \hbox to 0pt\bgroup\hss \begin{tabular}[t]{c}\large\bf\rule{\z@}{24pt}\ignorespaces}%
+       \hbox to \linewidth\bgroup\rule{\z@}{10pt} \hfil\hfil
+       \hbox to 0pt\bgroup\hss \begin{tabular}[t]{c}\large\bf\rule{\z@}{24pt}\@author
+       \end{tabular}\hss\egroup
+   \hfil\hfil\egroup}
+   \vskip 0.3in minus 0.1in
+   \hrule
+   \begin{abstract}
+   \@Abstract
+   \end{abstract}}
+   \textit{Keywords}:~\@Keywords.
+   \vskip 0.1in minus 0.05in
+   \hrule
+   \vskip 0.2in minus 0.1in
+  }}
+\makeatother
+
+
+
+\title{Overview of the \pkg{DESP} package\\\vskip 1cm \large Version \DESPversion, \DESPdate}
+
+\author{Arnak Dalalyan \\CREST/ENSAE
+ \And
+ Samuel Balmand \\MATIS/ENSG}
+
+
+
+% http://stats.stackexchange.com/questions/973/free-data-set-for-very-high-dimensional-classification
+% https://www.google.fr/search?q=datasets+r+high-dimension&ie=utf-8&oe=utf-8&gws_rd=cr&ei=Xrb1Vs7fHIP0aqipr4gC
+
+\Plainauthor{Arnak Dalalyan, Samuel Balmand} 
+\Plaintitle{Overview of the DESP package}
+
+
+\Abstract{
+  We present briefly the scope of the \pkg{DESP} package, which aims to estimate robustly the parameters of a Gaussian distribution---even in high dimension---with particular attention to the diagonal elements of the precision matrix.
+}
+
+\Keywords{precision matrix, high-dimension, sparse, robust, diagonal elements, \Rc}
+\Plainkeywords{precision matrix, high-dimension, sparse, robust, diagonal elements, R}
+
+
+\def\hat{\widehat}
+\def\bfX{{\mathbf X}}
+\def\bfY{{\mathbf Y}}
+\def\bfE{{\mathbf E}}
+\def\bfB{{\mathbf B}}
+\def\bfI{{\mathbf I}}
+\def\bfM{{\mathbf M}}
+\def\bfc{{\mathbf c}}
+\def\bfu{{\mathbf u}}
+\def\bfone{{\mathbf 1}}
+\def\bfTheta{\mathbf\Theta}
+\def\bfOmega{\mathbf\Omega}
+\def\bfSigma{\mathbf\Sigma}
+\def\bmu{\boldsymbol\mu}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\field}[1]{\mathbb{#1}}
+\newcommand{\R}{\field{R}}
+
+
+\begin{document}
+
+<<VersionDate,echo=FALSE,message=FALSE,results='hide'>>=
+options(width=72)
+knitr::opts_knit$set(width=72)
+knitr::opts_chunk$set(fig.pos = "", fig.align = "center")
+set.seed(0)
+library(DESP, quietly=TRUE)
+DESPversion <- packageDescription("DESP")$Version
+DESPdateRaw <- packageDescription("DESP")$Date
+DESPdateYear <- as.numeric(substr(DESPdateRaw, 1, 4))
+DESPdateMonth <- as.numeric(substr(DESPdateRaw, 6, 7))
+DESPdateDay <- as.numeric(substr(DESPdateRaw, 9, 10))
+DESPdate <- paste0(month.name[DESPdateMonth], " ",
+                     DESPdateDay, ", ",
+                     DESPdateYear)
+@
+\newcommand{\DESPversion}{\Sexpr{DESPversion}}
+\newcommand{\DESPdate}{\Sexpr{DESPdate}}
+
+\maketitle 
+
+\section{Introduction}
+
+\subsection{Purpose of this package}
+
+The \pkg{DESP} package\footnote{Licensed under GPL (version 3).} is designed to estimate efficiently the parameters of a Gaussian distribution as developed in \cite{BalmandDalalyan2015a, BalmandDalalyan2015b}.
+To be precise, it estimates the inverse of the covariance matrix (also known as precision or concentration matrix) and the expectation.
+Its main characteristics are the ability to deal with data contaminated by outliers, with high-dimensional data and the availability of several estimators of the diagonal elements of the precision matrix.
+
+In this document, we zoom in on the function {\tt desp()} which is an interface to most of the features of the package.
+
+\subsection{Notation}
+
+We denote by $\mathcal N_p(\bmu^*,\bfSigma^*)$ the Gaussian distribution in $\R^p$ with mean $\bmu^*$ and covariance matrix $\bfSigma^*$.
+The precision matrix $\big(\bfSigma^*\big)^{-1}$ is denoted by $\bfOmega^*$.
+We denote by $\bfone_n$ the vector from $\R^n$ with all the entries equal to $1$, by $\bfu_n$ the vector $\bfone_n/\sqrt{n}$ and by
+$\bfI_n$ the $n\times n$ identity matrix. 
+The transpose of the matrix $\bfM$ is denoted by $\bfM^\top$. 
+The $k$th row (resp.\ $j$th column) of a $n\times p$ matrix $\bfM$ is denoted by $\bfM_{k,\bullet}$ (resp.\ $\bfM_{\bullet,j}$).
+We use the following notation for the (pseudo-)norms of matrices: if $q_1,q_2>0$, then
+\begin{equation*}
+{\|\bfM\|}_{q_1,q_2} =
+\left\{\sum_{i=1}^n {\|\bfM_{i,\bullet}\|}_{q_1}^{q_2}\right\}^{1/q_2} .
+\end{equation*}
+The cardinality of a set $S$ is denoted by $|S|$.
+
+\subsection{Estimators}
+
+Let us first introduce the proposed estimator.
+We consider a possible additive contamination of the data by outliers.
+We assume that the matrix $\bfX\in\R^{n\times p}$ of observed data satisfies
+\begin{align}\label{DESP:outlier-model}
+\bfX = \bfY+\bfE^*,
+\end{align}
+where $\bfE^*$ is the matrix of errors and $\bfY$ the outlier-free data matrix.
+The rows latter are supposed to be independent Gaussian, such that $\bfY_{i,\bullet} \sim \mathcal N_p(\bmu^*,\bfSigma^*)$.
+We also assume that most of the rows of the matrix $\bfE^*$ correspond to inliers, hence are only filled with zeros.
+The $p\times p$ matrix $\bfB^*$ corresponds to $\bfOmega^* \cdot\text{diag}(\{1/\omega^*_{jj}\}_{j\in[p]})$.
+We introduce the matrix $\bfTheta^*=\bfE^*\bfB^*/\sqrt{n}$ that has the same sparsity pattern as $\bfE^*$.
+We denote by $\bfX^{(n)}$ the matrix $\bfX/\sqrt{n}$, the estimators of the parameters of the Gaussian distribution as defined as follows:
+\begin{align}\label{DESP:step:1bis}
+\{\hat\bfB,\hat\bfTheta\} = \argmin_{\substack{\bfB: \bfB_{jj}=1 \\ \bfTheta\in\R^{n\times p}}}\limits\,\min_{\bfc\in\R^p}
+\bigg\{ {\big\|(\bfX^{(n)}\bfB-\bfu_n\bfc^\top-\bfTheta)^\top\big\|}_{2,1}+\lambda {\|\bfTheta\|}_{2,1} + \gamma {\|\bfB\|}_{1,1}\bigg\},
+\end{align}
+where $\lambda\ge 0$ and $\gamma \ge 0$ are tuning parameters respectively promoting robustness and sparsity of the matrix $\bfB$. 
+The precision matrix $\bfOmega^*$ can be estimated by
+\begin{align}\label{DESP:step:2bis}
+\hat\omega_{jj} = \frac{2n}{\pi} {\|(\bfI_n-\bfu_n\bfu^\top_n)(\bfX^{(n)}\hat\bfB_{\bullet,j}-\hat\bfTheta_{\bullet,j})\|}_{1}^{-2};
+\qquad \hat\bfOmega = \hat\bfB\cdot\text{diag}(\{\hat\omega_{jj}\}_{j\in[p]}).
+\end{align}
+We highlight that the estimator of the diagonal entries of the precision matrix stated above -- based on average absolute deviation around the mean -- is only one of the alternatives proposed in the \pkg{DESP} package. The other possibilities rest on residual variance or likelihood maximization (relaxed, symmetry-enforced or penalized).
+The expectation vector $\bmu^*$ can be estimated by
+\begin{align}\label{DESP:step:3bis}
+\hat\bmu = \frac1n (\bfX-\hat\bfE)^\top\bfone_n , \quad\text{where}\quad \hat\bfE = \sqrt{n}\, \hat\bfTheta\hat\bfB^\dag.
+\end{align}
+The solutions of the problem \eqref{DESP:step:1bis} are obtained iteratively, by optimizing separately with respect to $\bfB$ and $\bfTheta$. 
+The details of the algorithm are provided in \cite{Balmand2016}. 
+
+\section{Implementation}
+
+The convex optimization problem \eqref{DESP:step:1bis} is decomposed in $p$ independent sub-problems.
+When both tuning parameters $\lambda$ and $\gamma$ are zero, the solution of problem \eqref{DESP:step:1bis} is obtained using ordinary least squares to estimate each column of $\bfB$.
+When $\gamma\ne0$, each of these $p$ problems corresponding to square-root Lasso can be either cast as an second-order cone program (SOCP), or solved using the coordinate descent algorithm.
+In the first case, we propose to use the splitting conic solver (SCS, \cite{ODonoghue2013}) that solves efficiently convex cone problems.
+We note however that a more efficient solution in terms of computational time is obtained using the coordinate descend algorithm (stochastic or not).
+The $p$ square-root Lasso problems can be solved in parallel when the OpenMP application programming interface (API)\footnote{OpenMP Architecture Review Board, see \href{http://openmp.org}{http://openmp.org}.} is supported.
+Most of the linear algebra operations are performed calling BLAS and LAPACK routines\footnote{These API are for instance implemented by OpenBLAS, available at \href{http://www.openblas.net/}{http://www.openblas.net/}; or ATLAS, available at \href{http://math-atlas.sourceforge.net/}{http://math-atlas.sourceforge.net/}.}.
+For the details of available options of the function {\tt desp()}, we refer the user to the package reference manual.
+
+\section{Installation}
+
+As available on CRAN\footnote{The Comprehensive \Rc\, Archive Network, \href{https://cran.r-project.org/}{https://cran.r-project.org/}.}, this package can be simply installed by entering the following instruction:
+<<Install,eval=FALSE>>=
+install.packages("DESP")
+@
+We recommend to use a compiler that supports OpenMP to allow multithreading.
+
+\section{Example}
+
+We estimate the parameters of the distribution of Fisher's iris data \cite{Anderson1935} for each of three iris species, assuming that these data are normally distributed. \\
+We first load the package and the data set:
+<<Load,eval=FALSE>>=
+library(DESP)
+data(iris3)
+@
+
+We will use the function {\tt desp.cv()} that relies on the function {\tt desp()} to estimate $\hat\bfOmega$ and $\hat\bmu$, choosing the tuning parameters $\lambda$ and $\gamma$ by $v$-fold cross-validation \cite{Geisser1975}.
+To define this function, we have introduced the following partition of the sample $S=\bigcup_{i=1}^v S_i$.
+The values of these parameters are selected over a grid such that the risk (the expectation of the loss) is the lowest. 
+In connexion with the regression model, we might consider a quadratic loss function and select:
+\begin{equation*}
+\{\lambda_{\text{vc}}, \gamma_{\text{vc}}\} = \argmin_{\lambda, \gamma} \frac1v \sum_{i=1}^v \frac1{|S_i|} \sum_{k=1}^{|S_i|} {\|\bfX_{k,\bullet}\hat\bfB_{(i,\lambda, \gamma)}-\hat\bmu_{(i,\lambda, \gamma)}^\top\hat\bfB_{(i,\lambda, \gamma)}\|}_2^2
+\end{equation*}
+where $\hat\bmu_{(i,\lambda, \gamma)}$ and $\hat\bfB_{(i,\lambda, \gamma)}$ are the estimates obtained on the training set $S\backslash S_i$.
+As the chosen loss function is not robust, we used instead 
+\begin{equation*}
+\{\lambda_{\text{vc}}, \gamma_{\text{vc}}\} = \argmin_{\lambda, \gamma} \frac1v \sum_{i=1}^v \frac1{|S_i|} \sum_{k=1}^{|S_i|} {\|\bfX_{k,\bullet}\hat\bfB_{(i,\lambda, \gamma)}-\hat\bmu_{(i,\lambda, \gamma)}^\top\hat\bfB_{(i,\lambda, \gamma)}\|}_2
+\end{equation*}
+that is inspired by the $\ell_1$ cross-validation procedure \cite{WangScott1994}.\\
+We choose the estimator based on average absolute deviation around the mean \eqref{DESP:step:2bis} to estimate the diagonal entries. Besides, we choose a number of folds equal to 5.
+<<ExFun>>=
+settings <- list(diagElem='AD')
+v <- 5
+@
+Then, we call this function on the first 25 observations of each species of iris:
+<<ExRun,message=FALSE,warning=FALSE>>=
+set.seed(1)
+categories <- colnames(iris3[1,,])
+params <- vector(mode="list", length=length(categories))
+for(c in 1:length(categories)){
+  obs <- 1:25
+  lr <- (9/10)^(0:9)
+  gr <- (1/sqrt(2))^(0:4) * sqrt(2*log(ncol(iris3[,,c])))
+  params[[c]] <- desp.cv(iris3[obs,,c], v=v, lambda.range=lr, 
+    gamma.range=gr, settings=settings)
+}
+@
+The estimated parameters corresponding to the species {\em Iris setosa} are:
+<<ExRes>>=
+params[[1]]
+@
+
+\section{Acknowledgements}
+
+The present document is written in \LaTeX\, and uses the \Rc\, package \pkg{knitr}.
+
+
+
+
+\begin{thebibliography}{}
+
+
+\bibitem{BalmandDalalyan2015a}
+Balmand, S. and Dalalyan, A.~S. (2015a).
+\newblock On estimation of the diagonal elements of a sparse precision matrix.
+\newblock {\em ArXiv e-prints\/}~{\em Posted as http://arxiv.org/abs/1504.04696}, 1--22.
+
+\bibitem{BalmandDalalyan2015b}
+Balmand, S. and Dalalyan, A.~S. (2015b).
+\newblock Convex programming approach to robust estimation of a multivariate Gaussian model.
+\newblock {\em ArXiv e-prints\/}~{\em Posted as http://arxiv.org/abs/1512.04734}, 1--31.
+
+\bibitem{Balmand2016}
+Balmand, S. (2016).
+\newblock Large precision matrix estimation.
+\newblock {\em Phd Thesis}.
+
+\bibitem{Anderson1935}
+Anderson, E. (1935).
+\newblock The irises of the Gaspe Peninsula.
+\newblock {\em Bulletin of the American Iris Society\/}, {\bf 59}, 2--5.
+
+\bibitem{Geisser1975}
+Geisser, S. (1975).
+\newblock The Predictive Sample Reuse Method with Applications.
+\newblock {\em Journal of the American Statistical Association\/}, {\bf 70}(350), 320--328.
+
+\bibitem{WangScott1994}
+Wang, F. and Scott, D. (1994).
+\newblock The $\ell_1$ method for robust nonparametric regression.
+\newblock {\em Journal of the American Statistical Association\/}, {\bf 89}(425), 65--76.
+
+\bibitem{ODonoghue2013}
+O'Donoghue, B. and Chu, E. and Parikh, N. and Boyd, S. (2013).
+\newblock Operator splitting for conic optimization via homogeneous self-dual embedding.
+\newblock {\em ArXiv e-prints\/}~{\em Posted as http://arxiv.org/abs/1312.3039}, 1--30.
+
+
+\end{thebibliography}
+
+\end{document}
+
+

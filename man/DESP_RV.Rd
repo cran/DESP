@@ -2,17 +2,19 @@
 \alias{DESP_RV}
 \title{Estimation of DESP by residual variance}
 \description{
-  This function estimates the diagonal of the precision matrix by residual variance when the true value of the coefficient matrix B is known or has already been estimated.
+  This function estimates the diagonal of the precision matrix by residual variance when the true value of the coefficient matrix \code{B} is known or has already been estimated. The observations of the data matrix \code{X} are assumed to have zero mean.
 }
 \usage{
-  DESP_RV(X, B)
+  DESP_RV(X, B, Theta = NULL)
 }
 \arguments{
-  \item{X}{The design matrix.}
+  \item{X}{The data matrix.}
   \item{B}{The coefficient matrix.}
+  \item{Theta}{The matrix orresponding to outliers.}
 }
-%\details{
-%}
+\details{
+  When Theta is not NULL, we consider an additive contamination model. We assume that X = Y + E is observed, denoting the outlier-free data by Y and the matrix of errors by E. In this case, the matrix Theta should be equal to E * B.
+}
 \value{
   This function returns the diagonal of the precision matrix associated with X as a vector.
 }

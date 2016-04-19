@@ -2,7 +2,7 @@
 \alias{DESP_Weighted_Graph}
 \title{Graph representation from the matrix B}
 \description{
-  This function build a weighted undirected graph without loops from the matrix B. The weights of the edges depend on squared partial correlations.
+  This function build a weighted undirected graph without loops from the matrix \code{B}. The weights of the edges depend on squared partial correlations.
 }
 \usage{
   DESP_Weighted_Graph(B, n)

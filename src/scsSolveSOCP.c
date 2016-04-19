@@ -32,12 +32,13 @@
 #define DEFAULT_warm_start	0	/* boolean, warm start (put initial guess in Sol struct): 0 */
 
 SEXP scs_SOCP_solve(SEXP Ax, SEXP Ai, SEXP Ap, SEXP Am, SEXP An, SEXP b, SEXP c, SEXP Kf, SEXP Kl, SEXP Kq, SEXP Kqsize, SEXP alpha, SEXP rho_x, SEXP max_iters, SEXP scale, SEXP eps, SEXP cg_rate, SEXP verbose, SEXP normalize, SEXP warm_start){
+	/* solve an SOCP using SCS (direct method) */
 	Cone * k;
 	Data * d;
 	Sol * sol;
 	Info info = { 0 };
 	AMatrix * A;
-	int i, st;
+	int st;
 	SEXP x, status, solution, solNames;
 	double *xx;
 	int * stat;

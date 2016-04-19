@@ -22,7 +22,7 @@ function(model){
   if (is.null(model$settings)) model$settings <- lst
   else {
     nSett <- names(lst)
-    model$settings <- as.list(mapply(function(a,b) ifelse(is.null(b),a,b),lst, model$settings[nSett]))
+    model$settings <- mapply(function(a,b) ifelse(is.null(b),a,b),lst, model$settings[nSett], SIMPLIFY=FALSE)
   }
 
   # call SCS
