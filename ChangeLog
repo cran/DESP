@@ -38,3 +38,13 @@
 
 	* Version: 0.2
 	* Release: addition of an implementation of a robust estimator of the precision matrix, addition of a package vignette, modification of the default choice to solve the square-root Lasso problem (set to coordinate descent), functionalities that depend on Mosek or Gurobi tagged as deprecated, modification of the signature of some functions (for instance, two optional parameters were added to DESP_SRL_B() for multithreading and to use shuffled/stochastic coordinate descent, rewriting in C of the function DESP_OLS_B(), other slight improvements
+
+2017-01-31  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.2-1
+	* Release: minor corrections (removal of the -g flag in the makefile scs.mk, removal of references to SUPPORT_OPENMP macro, slight modification of NAMESPACE file)
+
+2017-01-31  Samuel Balmand  <Samuel.Balmand@ensg.eu>
+
+	* Version: 0.2-2
+	* Release: minor formatting corrections in DESCRIPTION file

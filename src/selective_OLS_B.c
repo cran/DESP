@@ -28,8 +28,8 @@ SEXP selective_OLS_B(SEXP X, SEXP SPC){
 	SPC : matrix of squared partial correlations
 	*/
 
-	SEXP B, dim, solution, solNames, t;
-	double * X_j, * xj, * work, * XX, * tt, * y, * y2, * QQ , * BB, * select;
+	SEXP B, dim;
+	double * X_j, * xj, * work, * XX, * y, * y2, * QQ , * BB, * select;
 	int j, info, lwork, i, k;
 	double tmp;
 	int * ipiv, * sel;

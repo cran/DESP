@@ -20,13 +20,8 @@
 #include "cdSqR_Lasso_solve.h"
 #include "R_ext/BLAS.h"
 
-#include <Rconfig.h>
-// in case SUPPORT_OPENMP is not defined in Rconfig.h :
-#if (!defined SUPPORT_OPENMP && defined _OPENMP)
-#define SUPPORT_OPENMP 1 
-#endif
 
-#ifdef SUPPORT_OPENMP
+#ifdef _OPENMP
 #include <omp.h>
 #endif
 
@@ -98,7 +93,7 @@ SEXP srL_B(SEXP X, SEXP theta, SEXP lambda, SEXP sqRmethod, SEXP sto, SEXP nthre
 	st_t = 0;
  
 	/* compute an estimator of each column by the square-root Lasso */
-	#ifdef SUPPORT_OPENMP
+	#ifdef _OPENMP
 	#pragma omp parallel if(p > 10) default(none) shared(XX, TTheta, BBB, colSize, tt, n, p, lbda, one, mone, done, detect, meth, stoc) private(j, beta, z, nb, st) reduction(+:st_t) num_threads(nt)
 	#endif
 	{ /* begin parallel */
@@ -114,7 +109,7 @@ SEXP srL_B(SEXP X, SEXP theta, SEXP lambda, SEXP sqRmethod, SEXP sto, SEXP nthre
 	st = 0;
 	nb = 0;
 
-	#ifdef SUPPORT_OPENMP
+	#ifdef _OPENMP
 	#pragma omp for nowait 
 	#endif
 	for(j=0; j<p; j++){

@@ -67,8 +67,6 @@
 
 
 
-% http://stats.stackexchange.com/questions/973/free-data-set-for-very-high-dimensional-classification
-% https://www.google.fr/search?q=datasets+r+high-dimension&ie=utf-8&oe=utf-8&gws_rd=cr&ei=Xrb1Vs7fHIP0aqipr4gC
 
 \Plainauthor{Arnak Dalalyan, Samuel Balmand} 
 \Plaintitle{Overview of the DESP package}

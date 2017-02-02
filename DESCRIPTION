@@ -1,8 +1,8 @@
 Package: DESP
 Type: Package
 Title: Estimation of Diagonal Elements of Sparse Precision-Matrices
-Version: 0.2
-Date: 2016-04-12
+Version: 0.2-2
+Date: 2017-01-31
 Authors@R: c(person("Arnak", "Dalalyan", role = c("aut"),
 		     email = "Arnak.Dalalyan@ensae.fr"),
 	      person("Samuel", "Balmand", role = c("aut","cre"),
@@ -14,15 +14,15 @@ Description: Several estimators of the diagonal elements of a sparse precision
 	given matrix of estimated marginal regression coefficients. Moreover, a robust estimator
   of the precision matrix is proposed.
 	To install package 'gurobi', instructions at 
-	http://user.gurobi.com/download/gurobi-optimizer and 
-	http://www.gurobi.com/documentation/6.0/refman/r_api_overview.html.
+	<http://user.gurobi.com/download/gurobi-optimizer> and 
+	<http://www.gurobi.com/documentation/6.0/refman/r_api_overview.html>.
 License: GPL-3
-Imports: MASS, Matrix, graph, RBGL, SparseM, stats
+Imports: MASS, Matrix, graph, RBGL, SparseM, stats, methods
 Suggests: Rmosek, gurobi, knitr
 LazyLoad: yes
 NeedsCompilation: yes
 SystemRequirements: GNU make
 VignetteBuilder: knitr
-Packaged: 2016-04-18 16:28:12 UTC; balmand
+Packaged: 2017-02-01 15:29:02 UTC; balmand
 Repository: CRAN
-Date/Publication: 2016-04-19 13:49:58
+Date/Publication: 2017-02-02 11:33:51

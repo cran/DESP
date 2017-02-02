@@ -1,6 +1,6 @@
-f6aa898ba81f3c6c95708894aa51377f *ChangeLog
-0c481ddb10baaf5b4c9e7eba0a543169 *DESCRIPTION
-b168ed6087d43b41b6882f703fdd7099 *NAMESPACE
+448431a5dfc39dd5048cf0871d389a8e *ChangeLog
+17e0217f528a4b160d12dd8e923ff45d *DESCRIPTION
+bc667a315f07d94fa65b1784d4a04c69 *NAMESPACE
 fda9a2d4a146db47b1214754fc592cd3 *R/DESP_MST.R
 8ea5babb79891ee5cb7d7ef14323d7e6 *R/DESP_MST_MaxDegreeRoot.R
 edb2144c3f364f6a83c0f1f14456ce3c *R/DESP_OLS_B.R
@@ -23,8 +23,8 @@ e9d8eb77ad76406048a0f4f47d2592d7 *R/scsSOCP.R
 07617b061041774b933f5986e85b508f *README
 bf34e4ade2ecda509bfdc21c43c94469 *build/vignette.rds
 c391692f114b0e3da2f3ad68b4b6aca3 *inst/doc/DESP.R
-e68336f944b0be103fac1792571df7d1 *inst/doc/DESP.Rnw
-1726dd954e09f43a9c21d6e277bb2f9f *inst/doc/DESP.pdf
+4ff5a824928bf95961d10547ba2e7b37 *inst/doc/DESP.Rnw
+97122f19c7b5953c078fee9c00942a19 *inst/doc/DESP.pdf
 3c7ee26314152b3f8c444fb8629cff66 *man/DESP-internal.Rd
 57a96fcb1925873cf0bf2493b0668822 *man/DESP-package.Rd
 fa08a0f5066f9c68c73331e2c8650308 *man/DESP_AD.Rd
@@ -100,7 +100,7 @@ f7ed70880f01df0a04423709323c8a53 *src/scs/linsys/direct/private.h
 9fc1b630a8ceddc998c63dbbd49e2cae *src/scs/linsys/indirect/private.h
 b224f9329c25f766d586ec9f9502e2d8 *src/scs/originalSCS/README
 272df02be04608b659af5481b7f70343 *src/scs/originalSCS/SCS_20052015.zip
-3ac87502c39db613d8668e40d128ac18 *src/scs/scs.mk
+46d130b3a6240b138d4c76af1a27b845 *src/scs/scs.mk
 743b9be16d1b316f5238bee6f63506ba *src/scs/src/cones.c
 8e728794eabbe9ab7601a5660c3191a4 *src/scs/src/cs.c
 fcbcda6b7b2b44a6d8f80b75389f80e1 *src/scs/src/ctrlc.c
@@ -112,8 +112,8 @@ ff92d32c1b0e00249a69dd88820e5148 *src/scsSolveSOCP.c
 84bd849120e03c46a60033dec7db88ee *src/scsSqR_Lasso.c
 fb35e9def0c095c78a754367a2f6cf46 *src/scsSqR_Lasso_solve.c
 ade059aa85abd4fa705a05972df13bda *src/scsSqR_Lasso_solve.h
-1c270c4c5e4f799045e1f7ba310ea7f7 *src/selective_OLS_B.c
-81712d66fc167cdba3ff00ad68a87b8f *src/srL_B.c
+c94809d8e6847c9a40759dab5feb4206 *src/selective_OLS_B.c
+e7ea42b0f8096155140d7f7ec2b31922 *src/srL_B.c
 d75477a33a29360cbb9647d94eb2df99 *src/utils.c
 9886be0018bd5a51c902979b5dcc253e *src/utils.h
-e68336f944b0be103fac1792571df7d1 *vignettes/DESP.Rnw
+4ff5a824928bf95961d10547ba2e7b37 *vignettes/DESP.Rnw

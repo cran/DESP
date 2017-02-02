@@ -55,7 +55,7 @@ endif
 SHLIB_COMPILER_OPTION = -shared
 
 # Add on default CFLAGS
-ADDITIONAL_CFLAGS = -g -DCTRLC=1 $(CC_WARN) -pedantic -O3 -funroll-loops -Wstrict-prototypes -I. -Iinclude
+ADDITIONAL_CFLAGS = -DCTRLC=1 $(CC_WARN) -pedantic -O3 -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
 	ADDITIONAL_CFLAGS += -fPIC
 endif
@@ -65,7 +65,7 @@ ifeq ($(UNAME), SunOS)
 	ifeq (, $(findstring gcc, $(CC))) 
 		ifeq (, $(findstring clang, $(CC))) 
 			# we're on solaris (with Oracle Solaris Studio)
-			ADDITIONAL_CFLAGS = -g -DCTRLC=1 -I. -Iinclude
+			ADDITIONAL_CFLAGS = -DCTRLC=1 -I. -Iinclude
 			SHLIB_COMPILER_OPTION = -G
 		endif
 	endif
